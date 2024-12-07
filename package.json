@@ -7,8 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "nodemon server.js",
-    "dev": "nodemon server.js",
+    "start": "nodem server.js",
+    "dev": "nodem server.js",
     "test": "cross-env NODE_ENV=test jest"
   },
   "author": "",
