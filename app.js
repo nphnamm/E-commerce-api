@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 app.use(
   cors({
-    origin: "https://e-commerce-chi-olive-70.vercel.app",
+    origin: ["https://e-commerce-chi-olive-70.vercel.app:443","http://localhost:3000"],
     credentials: true,
   })
 );
