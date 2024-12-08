@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 app.use(
   cors({
-    origin: "https://e-commerce-ui-eta.vercel.app",
+    origin: ["https://e-commerce-ui-eta.vercel.app","http://localhost:3000"],
     credentials: true,
   })
 );

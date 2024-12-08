@@ -48,7 +48,7 @@ router.post(
         zipCode: req.body.zipCode,
       };
       const activationToken = createActivationToken(seller);
-      const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
+      const activationUrl = `https://e-commerce-ui-eta.vercel.app/${activationToken}`;
       console.log("check", activationUrl);
       
       try {
