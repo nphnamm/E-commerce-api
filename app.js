@@ -4,7 +4,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const allowedOrigins = ["https://e-commerce-eight-beryl-94.vercel.app", "http://example.com"];
+const allowedOrigins = ["http://localhost:3000", "https://e-commerce-eight-beryl-94.vercel.app"];
 
 app.use(
   cors({
