@@ -13,7 +13,7 @@ const productShema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your product category!"],
   },
-  storage:{
+  storage: {
     type: String,
   },
   size: {
