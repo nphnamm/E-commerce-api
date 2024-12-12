@@ -23,9 +23,9 @@ process.on("uncaughtException", (err) => {
 // })
 
 // Connection Database
-app.use("/",(req,res)=>{
-  res.send("Hello world");
-})
+// app.use("/",(req,res)=>{
+//   res.send("Hello world");
+// })
 connectDatabase();
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,

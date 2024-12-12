@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "nodem server.js",
+    "dev": "nodemon server.js",
     "test": "cross-env NODE_ENV=test jest"
   },
   "author": "",
