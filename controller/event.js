@@ -7,6 +7,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const router = express.Router();
 const fs = require("fs");
 const { isSeller, isAdmin, isAuthenticated } = require("../middleware/auth");
+const cloudinary = require("cloudinary");
 
 // create product
 router.post(
