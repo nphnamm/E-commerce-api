@@ -54,7 +54,7 @@ router.post("/create-user", async (req, res, next) => {
     };
     // console.log('user',user);
     const activationToken = createActivationToken(user);
-    const activationUrl = `${process.env.ACTIVATION_URL}${activationToken}`;
+    const activationUrl = `${process.env.ACTIVATION_URL}activation/${activationToken}`;
     
     console.log("check", activationUrl);
     try {

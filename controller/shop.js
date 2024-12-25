@@ -50,7 +50,7 @@ router.post(
         zipCode: req.body.zipCode,
       };
       const activationToken = createActivationToken(seller);
-      const activationUrl = `${process.env.ACTIVATION_URL}${activationToken}`;
+      const activationUrl = `${process.env.ACTIVATION_URL}seller/activation/${activationToken}`;
       console.log('process.env', process.env.JWT_SECRET_KEY);
       console.log("check url", activationUrl);
       
