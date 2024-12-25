@@ -11,8 +11,9 @@ const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendShopToken = require("../utils/shopToken");
 const cloudinary = require("cloudinary");
-require('dotenv').config();
-
+require("dotenv").config({
+  path: "config/.env",
+});
 router.post(
   "/create-shop",
   catchAsyncErrors(async (req, res, next) => {

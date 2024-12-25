@@ -4,7 +4,6 @@ const router = express.Router();
 const User = require("../model/user");
 const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-require("dotenv").config({ path: "config/.env" });
 const cloudinary = require("cloudinary");
 
 const ErrorHandler = require("../utils/ErrorHandler");
@@ -13,7 +12,9 @@ const sendMail = require("../utils/sendMail");
 const jwt = require("jsonwebtoken");
 const sendToken = require("../utils/jwtToken");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
-
+require("dotenv").config({
+  path: "config/.env",
+});
 router.post("/create-user", async (req, res, next) => {
   try {
     const { name, email, password, avatar } = req.body;
