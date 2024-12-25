@@ -11,6 +11,7 @@ const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendShopToken = require("../utils/shopToken");
 const cloudinary = require("cloudinary");
+require('dotenv').config();
 
 router.post(
   "/create-shop",
@@ -49,6 +50,7 @@ router.post(
       };
       const activationToken = createActivationToken(seller);
       const activationUrl = `${process.env.ACTIVATION_URL}${activationToken}`;
+      console.log('process.env', process.env.ACTIVATION_URL);
       console.log("check", activationUrl);
       
       try {
