@@ -53,8 +53,8 @@ router.post("/create-user", async (req, res, next) => {
     };
     // console.log('user',user);
     const activationToken = createActivationToken(user);
-    const activationUrl = `https://e-commerce-ui-eta.vercel.app/${activationToken}`;
-
+    const activationUrl = `${process.env.ACTIVATION_URL}${activationToken}`;
+    
     console.log("check", activationUrl);
     try {
       await sendMail({
