@@ -51,8 +51,8 @@ router.post(
       };
       const activationToken = createActivationToken(seller);
       const activationUrl = `${process.env.ACTIVATION_URL}${activationToken}`;
-      console.log('process.env', process.env.ACTIVATION_URL);
-      console.log("check", activationUrl);
+      console.log('process.env', process.env.JWT_SECRET_KEY);
+      console.log("check url", activationUrl);
       
       try {
         await sendMail({
