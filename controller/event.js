@@ -21,12 +21,13 @@ router.post(
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
         const files = req.files;
-        let images = [];
-        if (typeof req.body.images === "array") {
-          images.push(req.body.images);
-        } else {
-          images = req.body.images;
-        }
+        // let images = [];
+        // if (typeof req.body.images === "array") {
+        //   images.push(req.body.images);
+        // } else {
+        // }
+        images = req.body.images;
+
         const imagesLinks = [];
         for (let i = 0; i < images.length; i++) {
           if (typeof images[i] === "string") {
@@ -53,7 +54,7 @@ router.post(
       return next(new ErrorHandler(error, 400));
     }
   })
-);
+);  
 // get all events
 router.get("/get-all-events", async (req, res, next) => {
   try {
