@@ -20,10 +20,26 @@ router.post(
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
         const files = req.files;
-        const imageUrls = files.map((file) => `${file.filename}`);
-
+        let images = [];
+        if (typeof req.body.images === "array") {
+          images.push(req.body.images);
+        } else {
+          images = req.body.images;
+        }
+        const imagesLinks = [];
+        for (let i = 0; i < images.length; i++) {
+          if (typeof images[i] === "string") {
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+              folder: "events",
+            });
+            imagesLinks.push({
+              public_id: result.public_id,
+              url: result.secure_url,
+            });
+          }
+        }
         const eventData = req.body;
-        eventData.images = imageUrls;
+        eventData.images = imagesLinks;
         eventData.shop = shop;
         const product = await Event.create(eventData);
         res.status(201).json({
