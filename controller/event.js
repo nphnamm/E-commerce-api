@@ -9,24 +9,21 @@ const fs = require("fs");
 const { isSeller, isAdmin, isAuthenticated } = require("../middleware/auth");
 const cloudinary = require("cloudinary");
 
-// create product
 router.post(
   "/create-event",
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
       const shop = await Shop.findById(shopId);
+
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
         const files = req.files;
-        // let images = [];
-        // if (typeof req.body.images === "array") {
-        //   images.push(req.body.images);
-        // } else {
-        // }
-        images = req.body.images;
-        console.log('images',req.body.images)
+        const images = req.body.images || []; // Nếu không có images thì đặt là mảng rỗng
+
+        console.log('images', images);
+
         const imagesLinks = [];
         for (let i = 0; i < images.length; i++) {
           if (typeof images[i] === "string") {
@@ -39,10 +36,22 @@ router.post(
             });
           }
         }
-        const eventData = req.body;
-        eventData.images = imagesLinks;
-        eventData.shop = shop;
+
+        const eventData = {
+          name: req.body.name || null,
+          description: req.body.description || null,
+          date: req.body.date || null,
+          price: req.body.price || null,
+          storage: req.body?.storage,
+          size: req.body?.size,
+          color: req.body?.color,
+          tags:req.body?.tags,
+          images: imagesLinks,
+          shop: shop,
+        };
+
         const product = await Event.create(eventData);
+
         res.status(201).json({
           success: true,
           product,
@@ -50,10 +59,10 @@ router.post(
       }
     } catch (error) {
       console.log("error", error);
-      return next(new ErrorHandler(error, 400));
+      return next(new ErrorHandler(error.message, 400));
     }
   })
-);  
+);
 // get all events
 router.get("/get-all-events", async (req, res, next) => {
   try {

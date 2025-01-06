@@ -25,9 +25,19 @@ const eventSchema = new mongoose.Schema({
         type: String,
         default: "Running",
     },
+    storage: {
+        type: String,
+    },
+    size: {
+        type: String,
+    },
+    color: {
+        type: String,
+    },
     tags: {
         type: String,
     },
+
     originalPrice: {
         type: Number,
     },
@@ -41,16 +51,16 @@ const eventSchema = new mongoose.Schema({
     },
     images: [
         {
-          public_id: {
-            type: String,
-            required: true,
-          },
-          url: {
-            type: String,
-            required: true,
-          },
+            public_id: {
+                type: String,
+                required: true,
+            },
+            url: {
+                type: String,
+                required: true,
+            },
         },
-      ],
+    ],
     shopId: {
         type: String,
         required: true,

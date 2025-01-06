@@ -107,9 +107,8 @@ router.post(
         console.log(images);
         for (let i = 0; i < images.length; i++) {
           const imageBuffer = images[i].buffer;
-          const base64Image = `data:${
-            req.files[i].mimetype
-          };base64,${imageBuffer.toString("base64")}`;
+          const base64Image = `data:${req.files[i].mimetype
+            };base64,${imageBuffer.toString("base64")}`;
 
           const result = await cloudinary.v2.uploader.upload(base64Image, {
             folder: "products",
@@ -208,7 +207,6 @@ router.put(
     }
   })
 );
-
 router.patch(
   "/list",
   catchAsyncErrors(async (req, res) => {
@@ -244,7 +242,7 @@ router.patch(
         // Thêm điều kiện lọc `shop` vào `filters`
         filters.shop = shops;
       }
-      // console.log('shop',filters.shop);
+      console.log('shop', filters.shop);
 
 
       // Phân trang
@@ -259,15 +257,15 @@ router.patch(
         sortOptions[key] = sortField[key] === "asc" ? 1 : -1;
       });
       const allProducts = await Product.find(filters)
-      .populate("shop")
-      .sort(sortOptions)
-      
+        .populate("shop")
+        .sort(sortOptions)
+
       // Truy vấn dữ liệu từ MongoDB với bộ lọc, phân trang và sắp xếp
       const products = await Product.find(filters)
-      .populate("shop") // Populate để lấy dữ liệu shop đầy đủ
-      .limit(limit)
-      .skip(skip)
-      .sort(sortOptions);
+        .populate("shop") // Populate để lấy dữ liệu shop đầy đủ
+        .limit(limit)
+        .skip(skip)
+        .sort(sortOptions);
       // console.log(products);
       // Lọc ra các sản phẩm có `shop` hợp lệ (tức là `shop` có `name` trùng với `brand`)
       const filteredProducts = products.filter(product => product.shop);
@@ -277,7 +275,7 @@ router.patch(
 
       // Trả về kết quả
       res.json({
-        totalProducts:allProducts.length,
+        totalProducts: allProducts.length,
         totalItems,
         totalPages: Math.ceil(totalItems / limit),
         currentPage: page,
@@ -289,7 +287,6 @@ router.patch(
     }
   })
 );
-
 // get all products of a shop
 router.get(
   "/get-all-products-shop/:id",
@@ -433,6 +430,12 @@ router.put(
       const { user, rating, comment, productId, orderId } = req.body;
 
       const product = await Product.findById(productId);
+      console.log("product", product)
+      console.log("user", user)
+      console.log("rating", rating)
+      console.log("comment", comment)
+      console.log("productId", productId)
+      console.log("orderId", orderId)
 
       const review = {
         user,
@@ -444,6 +447,8 @@ router.put(
       const isReviewed = product.reviews.find(
         (rev) => rev.user._id === req.user._id
       );
+      console.log("isReviewed", isReviewed)
+
 
       if (isReviewed) {
         product.reviews.forEach((rev) => {
@@ -454,17 +459,15 @@ router.put(
       } else {
         product.reviews.push(review);
       }
+      console.log("review", review)
+      // Recalculate product ratings
+      const totalRatings = product.reviews.reduce((acc, rev) => acc + rev.rating, 0);
+      product.ratings = totalRatings / product.reviews.length;
 
-      let avg = 0;
-
-      product.reviews.forEach((rev) => {
-        avg += rev.rating;
-      });
-
-      product.ratings = avg / product.reviews.length;
-
+      // Save the updated product
       await product.save({ validateBeforeSave: false });
 
+      // Update the order to mark product as reviewed
       await Order.findByIdAndUpdate(
         orderId,
         { $set: { "cart.$[elem].isReviewed": true } },
@@ -473,7 +476,7 @@ router.put(
 
       res.status(200).json({
         success: true,
-        message: "Reviwed succesfully!",
+        message: "Review successfully added!",
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));

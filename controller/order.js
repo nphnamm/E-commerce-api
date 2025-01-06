@@ -107,6 +107,29 @@ router.put(
         });
       }
 
+      
+      async function updateOrder(id, qty) {
+        const product = await Product.findById(id);
+        console.log('product', product);
+        console.log('id', id);
+        console.log('qty', qty);
+
+        product.stock -= qty;
+        product.sold_out += qty;
+
+        await product.save({ validateBeforeSave: false });
+      }
+
+      async function updateSellerInfo(amount) {
+        const seller = await Shop.findById(req.seller.id);
+        console.log('seller', seller);
+        console.log('amount', amount);
+
+        seller.availableBalance += amount;
+
+        await seller.save();
+      }
+
       order.status = req.body.status;
 
       if (req.body.status === "Delivered") {
@@ -121,27 +144,13 @@ router.put(
 
       await order.save({ validateBeforeSave: false });
 
+   
+
       res.status(200).json({
         success: true,
         order,
       });
 
-      async function updateOrder(id, qty) {
-        const product = await Product.findById(id);
-
-        product.stock -= qty;
-        product.sold_out += qty;
-
-        await product.save({ validateBeforeSave: false });
-      }
-
-      async function updateSellerInfo(amount) {
-        const seller = await Shop.findById(req.seller.id);
-
-        seller.availableBalance += amount;
-
-        await seller.save();
-      }
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
